@@ -54,7 +54,7 @@
                 </li>
                 <li>
                     <a href="/auth/login" class="hover:text-laravel"><i
-                            class="fa-solid fa-arrow-right-to-bracket"></i>Login</a>
+                            class="fa-solid fa-arrow-right-to-bracket"></i> Login</a>
                 </li>
             @endauth
         </ul>
