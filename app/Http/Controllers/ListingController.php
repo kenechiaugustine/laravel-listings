@@ -82,7 +82,7 @@ class ListingController extends Controller
 
         $listing->update($formFields);
 
-        return back()->with('message', 'Listing updated');
+        return redirect('/'. $listing->id)->with('message', 'Listing updated');
     }
 
 
