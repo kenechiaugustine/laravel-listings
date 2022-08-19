@@ -57,7 +57,7 @@
                 <label for="website" class="inline-block text-lg mb-2">
                     Website/Application URL
                 </label>
-                <input type="text" class="border border-gray-200 rounded p-2 w-full" name="website"
+                <input type="url" class="border border-gray-200 rounded p-2 w-full" name="website"
                     value="{{ old('website') }}" placeholder="https://www.google.com/" />
 
                 @error('website')
