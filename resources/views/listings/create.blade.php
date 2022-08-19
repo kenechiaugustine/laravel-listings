@@ -16,7 +16,7 @@
             <div class="mb-6">
                 <label for="company" class="inline-block text-lg mb-2">Company Name</label>
                 <input type="text" class="border border-gray-200 rounded p-2 w-full" name="company"
-                    value="{{ old('company') }}" />
+                    value="{{ old('company') }}" placeholder="Google" />
 
                 @error('company')
                     <p class="text-red-500 text-sm">{{ $message }}</p>
@@ -58,7 +58,7 @@
                     Website/Application URL
                 </label>
                 <input type="text" class="border border-gray-200 rounded p-2 w-full" name="website"
-                    value="{{ old('website') }}" />
+                    value="{{ old('website') }}" placeholder="https://www.google.com/" />
 
                 @error('website')
                     <p class="text-red-500 text-sm">{{ $message }}</p>
