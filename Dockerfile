@@ -1,4 +1,4 @@
-FROM php:8.0-apache
+FROM php:8.1-apache
 
 # Copy the application code into the container
 COPY . /var/www/html/
