@@ -20,9 +20,12 @@ RUN cd /var/www/html && composer install
 # RUN if [ -z "$APP_KEY" ]; then php /var/www/html/artisan key:generate; fi
 # RUN php /var/www/html/artisan migrate --force
 
+RUN /var/www/html/vendor/bin/sail artisan migrate --force
+
 # Make sure the web server user has the correct permissions
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
 # Expose port 80 and start the Apache web server
-EXPOSE 80
+EXPOSE 8000
+
 CMD ["apache2-foreground"]
