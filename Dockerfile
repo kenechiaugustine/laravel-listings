@@ -28,4 +28,6 @@ RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cac
 # Expose port 80 and start the Apache web server
 EXPOSE 8000
 
-CMD ["apache2-foreground"]
+# CMD ["apache2-foreground"]
+
+CMD ["php", "artisan", "serve"]
