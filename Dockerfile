@@ -32,8 +32,14 @@ RUN chown -R www-data:www-data \
     storage \
     bootstrap/cache
 
+# Create apache.conf file if not exist
+RUN [ -f "apache.conf" ] || echo "Create apache.conf if not exist" > apache.conf
+
 # Copy the Apache configuration file
 COPY apache.conf /etc/apache2/sites-available/000-default.conf
+
+# Set the correct permissions for apache.conf on the host machine
+RUN chmod 644 /etc/apache2/sites-available/000-default.conf
 
 # Expose the port for the web server
 EXPOSE 80
