@@ -17,8 +17,8 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 RUN cd /var/www/html && composer install
 
 # run migration and generate key
-RUN if [ -z "$APP_KEY" ]; then php /var/www/html/artisan key:generate; fi
-RUN php /var/www/html/artisan migrate --force
+# RUN if [ -z "$APP_KEY" ]; then php /var/www/html/artisan key:generate; fi
+# RUN php /var/www/html/artisan migrate --force
 
 # Make sure the web server user has the correct permissions
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
