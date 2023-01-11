@@ -1,33 +1,34 @@
-FROM php:8.1-apache
+# Use an official PHP runtime as the base image
+FROM php:8.1-fpm
 
-# Copy the application code into the container
-COPY . /var/www/html/
-
-# Update the system and install necessary dependencies
+# Install dependencies
 RUN apt-get update && apt-get install -y \
     git \
     zip \
-    unzip \
-    && docker-php-ext-install pdo_mysql
+    unzip
 
-# Install composer
+# Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Install Laravel dependencies
-RUN cd /var/www/html && composer install
+# Create a working directory
+RUN mkdir /var/www/app
 
-# run migration and generate key
-# RUN if [ -z "$APP_KEY" ]; then php /var/www/html/artisan key:generate; fi
-# RUN php /var/www/html/artisan migrate --force
+# Set the working directory
+WORKDIR /var/www/app
 
-# RUN /var/www/html/vendor/bin/sail artisan migrate --force
+# Copy the application code
+COPY . .
 
-# Make sure the web server user has the correct permissions
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+# Install dependencies using Composer
+RUN composer install --no-dev --optimize-autoloader
 
-# Expose port 80 and start the Apache web server
-EXPOSE 8000
+# Make storage and bootstrap cache directories writeable by the web server user
+RUN chown -R www-data:www-data \
+    storage \
+    bootstrap/cache
 
-# CMD ["apache2-foreground"]
+# Expose the port for the web server
+EXPOSE 9000
 
-CMD ["php", "artisan", "serve"]
+# Start the web server
+CMD ["php-fpm"]
