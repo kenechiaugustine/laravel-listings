@@ -1,28 +1,17 @@
-FROM php:8.1-apache
+FROM php:8.1 as php
 
-# Copy the application code into the container
-COPY . /var/www/html/
+RUN apt-get update -y
+RUN apt-get install -y unzip libpq-dev libcurl4-gnutls-dev
+RUN docker-php-ext-install pdo pdo_mysql bcmath
 
-# Update the system and install necessary dependencies
-RUN apt-get update && apt-get install -y \
-    git \
-    zip \
-    unzip \
-    && docker-php-ext-install pdo_mysql
+RUN pecl install -o -f redis \
+    && rm -rf /tmp/pear \
+    && docker-php-ext-enable redis
 
-# Install composer
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+WORKDIR /var/www
+COPY . .
 
-# Install Laravel dependencies
-RUN cd /var/www/html && composer install
+COPY --from=composer:2.5.1 /usr/bin/composer /usr/bin/composer
 
-# run migration and generate key
-# RUN if [ -z "$APP_KEY" ]; then php /var/www/html/artisan key:generate; fi
-# RUN php /var/www/html/artisan migrate --force
-
-# Make sure the web server user has the correct permissions
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
-
-# Expose port 80 and start the Apache web server
-EXPOSE 80
-CMD ["apache2-foreground"]
+ENV PORT=8000
+ENTRYPOINT [ "Docker/entrypoint.sh" ]
