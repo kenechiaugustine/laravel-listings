@@ -2,8 +2,6 @@
 
 use App\Http\Controllers\ListingController;
 use App\Http\Controllers\UserController;
-use App\Models\Listings;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Route;
 
 /*
